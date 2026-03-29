@@ -7,6 +7,9 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install docling-serve openai-whisper
+RUN pip install --no-cache-dir \
+    docling-serve \
+    openai-whisper \
+    easyocr
 
 CMD ["docling-serve", "run", "--host", "0.0.0.0", "--port", "5001"]
