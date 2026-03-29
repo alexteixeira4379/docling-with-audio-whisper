@@ -1,8 +1,12 @@
-FROM quay.io/docling-project/docling-serve-cpu:latest
+FROM python:3.12-slim
 
-USER root
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
 
-RUN dnf install -y ffmpeg && dnf clean all
-RUN pip install --no-cache-dir openai-whisper
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install docling-serve openai-whisper
 
 CMD ["docling-serve", "run", "--host", "0.0.0.0", "--port", "5001"]
